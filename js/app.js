@@ -1,19 +1,20 @@
 import { mockTasks } from "./mock-tasks.js";
+import { TaskList } from "./task-list.js";
 import { Task } from "./task.js";
 
-// const taskList = new TaskList();
-// // Fonction pour jouer une animation Lottie
-// const playLottieAnimation = (animationPath) => {
-//   const lottieContainer = document.getElementById('lottie-container');
-//   lottieContainer.innerHTML = ''; // Effacer toute animation précédente
-//   lottie.loadAnimation({
-//     container: lottieContainer, // Conteneur de l'animation
-//     renderer: 'svg',
-//     loop: false,
-//     autoplay: true,
-//     path: animationPath // Chemin vers l'animation JSON
-//   });
-// };
+const taskList = new TaskList();
+// Fonction pour jouer une animation Lottie
+const playLottieAnimation = (animationPath) => {
+  const lottieContainer = document.getElementById('lottie-container');
+  lottieContainer.innerHTML = ''; // Effacer toute animation précédente
+  lottie.loadAnimation({
+    container: lottieContainer, // Conteneur de l'animation
+    renderer: 'svg',
+    loop: false,
+    autoplay: true,
+    path: animationPath // Chemin vers l'animation JSON
+  });
+};
 
 // Fonction pour ajouter une tâche au DOM
 const addTaskToDOM = (task) => {
@@ -142,8 +143,8 @@ document.getElementById("taskForm").addEventListener("submit", (event) => {
   taskList.addTask(task);
   addTaskToDOM(task);
   updateUncompletedCount();
-  // Jouer l'animation d'ajout de tâche'
-  //   playLottieAnimation("../animations/add-task.json");
+  // Jouer l'animation de suppression
+  playLottieAnimation("../animations/add-task.json");
   document.getElementById("taskForm").reset();
 });
 
