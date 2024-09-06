@@ -1,0 +1,86 @@
+body {
+  position: relative;
+  margin: 0;
+  overflow: hidden; /* Empêche le défilement si nécessaire */
+}
+
+h1.logo-title {
+  font-family: "Lobster", cursive;
+  font-size: 3rem;
+  background: linear-gradient(45deg, #ff6a1a, #007bff); /* Dégradé de couleur */
+  -webkit-background-clip: text; /* Clip du fond pour que le texte ait le dégradé */
+  -webkit-text-fill-color: transparent; /* Rendre le texte transparent pour voir le dégradé */
+}
+
+/* Styles pour le conteneur de la liste des tâches */
+.task-container {
+  height: 50vh; /* Hauteur de la div en pourcentage de la hauteur de la vue */
+  overflow-y: auto; /* Ajoute une barre de défilement verticale si nécessaire */
+  border: 1px solid #ddd; /* Bordure pour mieux visualiser la div */
+  background-color: #fff; /* Couleur de fond */
+  box-sizing: border-box; /* Inclut les bordures et les marges dans la hauteur et la largeur */
+}
+
+/* Styles pour les éléments de la liste */
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-group-item div.flex-grow-1 {
+  flex-grow: 1; /* Permet à l'élément de prendre l'espace disponible */
+}
+
+.badge {
+  margin-left: 10px; /* Espacement entre les badges */
+}
+
+.btn {
+  margin-left: 15px; /* Espacement entre les badges et le bouton de suppression */
+}
+
+/* Styles pour les pastilles de priorité */
+.badge-high {
+  background-color: #dc3545; /* Rouge pour haute priorité */
+}
+
+.badge-medium {
+  background-color: #fd7e14; /* Orange pour moyenne priorité */
+}
+
+.badge-low {
+  background-color: #28a745; /* Vert pour basse priorité */
+}
+
+/* Styles pour les pastilles de statut */
+.badge-completed {
+  background-color: #28a745; /* Vert pour tâche terminée */
+}
+
+.badge-not-completed {
+  background-color: #dc3545; /* Rouge pour tâche non commencée */
+}
+
+/* Ajoute une largeur minimale au statut de la tâche */
+.task-status-width,
+.task-priority-width {
+  min-width: 100px; /* Ajustez cette valeur selon vos besoins */
+  text-align: center; /* Centre le texte à l'intérieur */
+}
+
+.task-priority-width {
+  min-width: 80px; /* Ajustez cette valeur selon vos besoins */
+  text-align: center; /* Centre le texte à l'intérieur */
+}
+.fa-solid {
+  color: #ff6a1a;
+  padding: 3px;
+}
+.list-group-item:first-child,
+.list-group-item:last-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
