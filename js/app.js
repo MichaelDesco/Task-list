@@ -5,64 +5,47 @@ import { Task } from "./task.js";
 const taskList = new TaskList();
 // Fonction pour jouer une animation Lottie
 const playLottieAnimation = (animationPath) => {
-  const lottieContainer = document.getElementById('lottie-container');
-  lottieContainer.innerHTML = ''; // Effacer toute animation précédente
+  const lottieContainer = document.getElementById("lottie-container");
+  lottieContainer.innerHTML = ""; // Effacer toute animation précédente
   lottie.loadAnimation({
     container: lottieContainer, // Conteneur de l'animation
-    renderer: 'svg',
+    renderer: "svg",
     loop: false,
     autoplay: true,
-    path: animationPath // Chemin vers l'animation JSON
+    path: animationPath, // Chemin vers l'animation JSON
   });
 };
 
-// Fonction pour ajouter une tâche au DOM
 const addTaskToDOM = (task) => {
-  const taskItem = document.createElement("li");
-  taskItem.classList.add(
-    "list-group-item",
-    "d-flex",
-    "justify-content-between",
-    "align-items-center"
-  );
+  // Sélectionner le template et cloner son contenu
+  const template = document.getElementById("task-template");
+  const taskItem = document.importNode(template.content, true);
 
-  const taskTitle = document.createElement("span");
-  taskTitle.textContent = task.getTitleUpperCase();
-  taskTitle.classList.add("me-2");
+  // Remplir les informations dynamiques de la tâche
+  taskItem.querySelector(".task-title").textContent = task.getTitleUpperCase();
+  taskItem.querySelector(".task-date").textContent = task.getFormattedDate();
 
-  const taskPriority = document.createElement("span");
-  taskPriority.textContent = task.getPriorityLabel();
-  taskPriority.classList.add(
-    "badge",
-    "rounded-pill",
-    getPriorityBadgeClass(task.priority),
-    "me-2",
-    "task-priority-width"
-  );
+  // Initialiser la valeur du <select> pour la priorité
+  const taskPrioritySelect = taskItem.querySelector(".task-priority-select");
+  taskPrioritySelect.value = task.priority; // Mettre la priorité actuelle
 
-  const taskStatus = document.createElement("span");
-  taskStatus.classList.add(
-    "badge",
-    task.completed ? "badge-completed" : "badge-not-completed",
-    "me-2",
-    "task-status-width"
-  );
-  taskStatus.textContent = task.completed ? "Terminée" : "Non Terminée";
+  // Gérer le changement de priorité
+  taskPrioritySelect.addEventListener("change", (event) => {
+    const newPriority = parseInt(event.target.value);
+    task.priority = newPriority; // Mettre à jour la priorité de la tâche
+  });
 
-  const taskContent = document.createElement("div");
-  taskContent.classList.add("d-flex", "align-items-center", "flex-grow-1");
-  taskContent.append(taskTitle);
+  // Statut de la tâche (terminée ou non)
+  taskItem.querySelector(".task-status").textContent = task.completed
+    ? "Terminée"
+    : "Non Terminée";
+  taskItem
+    .querySelector(".task-status")
+    .classList.add(task.completed ? "badge-completed" : "badge-not-completed");
 
-  const rightContent = document.createElement("div");
-  rightContent.classList.add("d-flex", "align-items-center");
-  rightContent.append(taskPriority, taskStatus);
-
-  const deleteButton = document.createElement("button");
-  deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>';
-  deleteButton.classList.add("btn", "btn-sm", "ms-1");
-
-  deleteButton.addEventListener("click", () => {
-    Swal.fire({
+  // Gestion du bouton de suppression
+  taskItem.querySelector(".delete-task").addEventListener("click", async () => {
+    const result = await Swal.fire({
       title: "Êtes-vous sûr ?",
       text: "Vous ne pourrez pas annuler cela !",
       icon: "warning",
@@ -71,17 +54,17 @@ const addTaskToDOM = (task) => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Oui, supprimer !",
       cancelButtonText: "Annuler",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        taskList.removeTask(task.title);
-        taskItem.remove();
-        updateUncompletedCount();
-        Swal.fire("Supprimée!", "Votre tâche a été supprimée.", "success");
-      }
     });
+
+    if (result.isConfirmed) {
+      taskList.removeTask(task.title);
+      taskItem.remove();
+      updateUncompletedCount();
+      Swal.fire("Supprimée!", "Votre tâche a été supprimée.", "success");
+    }
   });
 
-  taskItem.append(taskContent, rightContent, deleteButton);
+  // Ajouter la tâche à la liste
   document.getElementById("taskList").appendChild(taskItem);
 };
 
@@ -134,18 +117,30 @@ const updateUncompletedCount = () => {
   ).textContent = `Nombre de tâches non terminées : ${taskList.countUncompletedTasks()}`;
 };
 
-// Ajouter des événements aux boutons
 document.getElementById("taskForm").addEventListener("submit", (event) => {
   event.preventDefault();
   const title = document.getElementById("taskTitle").value;
-  const priority = parseInt(document.getElementById("taskPriority").value);
-  const task = new Task(title, priority);
-  taskList.addTask(task);
-  addTaskToDOM(task);
-  updateUncompletedCount();
-  // Jouer l'animation de suppression
-  playLottieAnimation("../animations/add-task.json");
-  document.getElementById("taskForm").reset();
+  const priority = 1; // Priorité par défaut
+  // Afficher une alerte de validation
+  Swal.fire({
+    title: "Tâche ajoutée !",
+    text: `${title} a été ajoutée avec succès.`,
+    icon: "success",
+    confirmButtonText: "OK",
+    confirmButtonColor: "#3085d6",
+  }).then(() => {
+    // Ajouter la tâche après validation
+    const task = new Task(title, priority);
+    // Ajouter la tâche à la liste et au DOM
+    taskList.addTask(task);
+    addTaskToDOM(task);
+    // Mettre à jour le nombre de tâches non terminées
+    updateUncompletedCount();
+    // Jouer l'animation d'ajout
+    playLottieAnimation("../animations/add-task.json");
+    // Réinitialiser le formulaire
+    document.getElementById("taskForm").reset();
+  });
 });
 
 document.getElementById("sortButton").addEventListener("click", sortTasks);

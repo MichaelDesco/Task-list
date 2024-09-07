@@ -32,11 +32,11 @@
             placeholder="Ajouter une tâche..."
             required
           />
-          <select id="taskPriority" class="form-select">
+          <!-- <select id="taskPriority" class="form-select">
             <option value="1">Basse</option>
             <option value="2">Moyenne</option>
             <option value="3">Haute</option>
-          </select>
+          </select> -->
           <button type="submit" class="btn btn-primary">Ajouter Tâche</button>
         </div>
       </form>
@@ -52,7 +52,28 @@
 
       <div id="taskContainer" class="task-container">
         <ul id="taskList" class="list-group">
-          <!-- Les tâches vont apparaître ici -->
+          <template id="task-template">
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              <div class="d-flex align-items-center flex-grow-1">
+                <strong class="task-title me-2"></strong>
+                <span class="task-date text-muted ms-2"></span>
+              </div>
+              <div class="d-flex align-items-center">
+                <!-- Remplacer la balise <span> par un <select> -->
+                <select class="form-select task-priority-select me-2">
+                  <option value="1">Basse</option>
+                  <option value="2">Moyenne</option>
+                  <option value="3">Haute</option>
+                </select>
+                <span class="task-status badge me-2"></span>
+                <button class="delete-task btn btn-sm ms-1">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </li>
+          </template>
         </ul>
       </div>
       <div class="mt-3">

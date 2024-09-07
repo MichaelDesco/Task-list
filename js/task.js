@@ -15,4 +15,10 @@ export class Task {
   // Formater la priorité en utilisant une fonction fléchée et des backticks pour une meilleure lisibilité
   getPriorityLabel = () =>
     this.priority === 3 ? "Haute" : this.priority === 2 ? "Moyenne" : "Basse";
+
+  // Ajout de la méthode pour formater la date
+  getFormattedDate = () => {
+    const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+    return `le ${this.dateAdded.toLocaleDateString("fr-FR", options)}`;
+  };
 }
