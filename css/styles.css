@@ -84,3 +84,7 @@ h1.logo-title {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+.text-muted {
+  color: #6c757d; /* Gris pour la date */
+}

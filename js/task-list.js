@@ -50,7 +50,9 @@ export class TaskList {
   // Marquer une tâche comme terminée (utilisation de find et méthode complète de l'objet Task)
   markTaskAsCompleted = (title) => {
     const task = this.tasks.find((task) => task.title === title);
-    task && task.completeTask(); // court-circuit pour marquer comme terminée
+    if (task) {
+      task.completeTask(); // Marquer comme terminée
+    }
   };
 
   // Afficher les tâches triées par priorité avec regroupement
