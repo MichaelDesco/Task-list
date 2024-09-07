@@ -61,17 +61,12 @@ h1.logo-title {
 .badge-not-completed {
   background-color: #dc3545; /* Rouge pour tâche non commencée */
 }
-
-/* Ajoute une largeur minimale au statut de la tâche */
-.task-status-width,
-.task-priority-width {
-  min-width: 100px; /* Ajustez cette valeur selon vos besoins */
-  text-align: center; /* Centre le texte à l'intérieur */
+.form-select {
+  width: auto;
+  height: auto;
 }
-
-.task-priority-width {
-  min-width: 80px; /* Ajustez cette valeur selon vos besoins */
-  text-align: center; /* Centre le texte à l'intérieur */
+.task-status {
+  width: 6rem;
 }
 .fa-solid {
   color: #ff6a1a;

@@ -142,28 +142,13 @@ document.getElementById("taskForm").addEventListener("submit", (event) => {
   event.preventDefault();
   const title = document.getElementById("taskTitle").value;
   const priority = parseInt(document.getElementById("taskPriority").value);
-  // Afficher une alerte de validation
-  Swal.fire({
-    title: "Tâche ajoutée !",
-    text: `Titre: ${title} - Priorité: ${
-      priority === 3 ? "Haute" : priority === 2 ? "Moyenne" : "Basse"
-    }`,
-    icon: "success",
-    confirmButtonText: "OK",
-    confirmButtonColor: "#3085d6",
-  }).then(() => {
-    // Ajouter la tâche après validation
-    const task = new Task(title, priority);
-    // Ajouter la tâche à la liste et au DOM
-    taskList.addTask(task);
-    addTaskToDOM(task);
-    // Mettre à jour le nombre de tâches non terminées
-    updateUncompletedCount();
-    // Jouer l'animation d'ajout
-    playLottieAnimation("../animations/add-task.json");
-    // Réinitialiser le formulaire
-    document.getElementById("taskForm").reset();
-  });
+  const task = new Task(title, priority);
+  taskList.addTask(task);
+  addTaskToDOM(task);
+  updateUncompletedCount();
+  // Jouer l'animation de suppression
+  playLottieAnimation("../animations/add-task.json");
+  document.getElementById("taskForm").reset();
 });
 
 document.getElementById("sortButton").addEventListener("click", sortTasks);
